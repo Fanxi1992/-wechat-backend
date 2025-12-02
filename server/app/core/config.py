@@ -18,6 +18,14 @@ class Settings(BaseSettings):
   # Database
   DATABASE_URL: str = "sqlite:///./data/app.db"
 
+  # Text/file constraints
+  TEXT_LIMIT: int = 10000
+  TEXT_SOFT_LIMIT: int = 5000
+  TTS_SLICE_LIMIT: int = 2000
+  MAX_FILE_SIZE_MB: int = 10
+  ALLOW_FILE_EXT: str = "txt,pdf,doc,docx"
+  TEMP_DIR: str = "./tmp"
+
   # Redis (optional, not required now)
   REDIS_HOST: str = "localhost"
   REDIS_PORT: int = 6379

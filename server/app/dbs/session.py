@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, create_engine, Session
+from sqlmodel import SQLModel, create_engine, Session, sessionmaker
 
 from app.core.config import settings
 
@@ -8,7 +8,7 @@ engine = create_engine(
   pool_recycle=7200,
 )
 
-SessionLocal = Session
+SessionLocal = sessionmaker(bind=engine, class_=Session, autoflush=False, autocommit=False)
 
 
 def init_db() -> None:

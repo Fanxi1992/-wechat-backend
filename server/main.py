@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from app.api.routes import auth
+from app.api.routes import router as api_router
+from app.core.config import settings
 
 
 def create_app() -> FastAPI:
@@ -10,7 +11,7 @@ def create_app() -> FastAPI:
   app = FastAPI(title="TTS Backend", version="0.1.0")
 
   # Routers
-  app.include_router(auth.router, prefix="/api")
+  app.include_router(api_router, prefix=settings.API_PREFIX)
 
   @app.get("/health", tags=["health"])
   def health_check():

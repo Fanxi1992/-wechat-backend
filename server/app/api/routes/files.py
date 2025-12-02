@@ -1,0 +1,23 @@
+from fastapi import APIRouter, UploadFile, File, HTTPException
+
+from app.schemas.file import FileParseResponse, FileMeta
+from app.services.file_service import read_file_content, validate_file
+
+router = APIRouter(prefix="/files", tags=["files"])
+
+
+@router.post("/parse", response_model=FileParseResponse)
+async def parse_file(file: UploadFile = File(...)) -> FileParseResponse:
+  try:
+    ext, _ = validate_file(file)
+  except ValueError as e:
+    raise HTTPException(status_code=400, detail=str(e))
+
+  text = await read_file_content(file)
+  meta = FileMeta(
+    filename=file.filename or "unnamed",
+    size=file.size or 0,  # type: ignore[attr-defined]
+    ext=ext,
+    note="parser placeholder for non-txt files" if ext != "txt" else None,
+  )
+  return FileParseResponse(text=text, meta=meta)
