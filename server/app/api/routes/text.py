@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 
-from app.schemas.text import TextParseRequest, TextParseResponse, SummarizeRequest, SummarizeResponse, SummarizeMeta, TextMeta
-from app.core.config import settings
-from app.services import text_service
+from server.app.schemas.text import TextParseRequest, TextParseResponse, SummarizeRequest, SummarizeResponse, SummarizeMeta, TextMeta
+from server.app.core.config import settings
+from server.app.services import text_service
 
 router = APIRouter(prefix="/text", tags=["text"])
 

@@ -1,7 +1,7 @@
 from sqlmodel import Session
 
-from app.core import security
-from app.dbs.daos import UserDAO
+from server.app.core import security
+from server.app.dbs.daos import UserDAO
 
 
 class UserService:

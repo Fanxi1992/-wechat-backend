@@ -1,5 +1,5 @@
 import requests
-from app.core.config import settings
+from server.app.core.config import settings
 
 
 def clamp_text(content: str) -> tuple[str, bool]:

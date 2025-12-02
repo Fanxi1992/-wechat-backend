@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from sqlmodel import Session, select
 
-from app.dbs import models
+from server.app.dbs import models
 
 
 class UserDAO:

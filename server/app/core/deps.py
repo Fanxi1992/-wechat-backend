@@ -4,10 +4,10 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
 from sqlmodel import Session
 
-from app.core.config import settings
-from app.core.security import create_access_token, create_refresh_token  # noqa: F401
-from app.dbs.session import SessionLocal
-from app.dbs.daos import UserDAO  # type: ignore[attr-defined]
+from server.app.core.config import settings
+from server.app.core.security import create_access_token, create_refresh_token  # noqa: F401
+from server.app.dbs.session import SessionLocal
+from server.app.dbs.daos import UserDAO  # type: ignore[attr-defined]
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_PREFIX}/auth/login")
 

@@ -8,7 +8,7 @@ try:
 except ImportError:  # pragma: no cover
   Redis = None  # type: ignore
 
-from app.core.config import settings
+from server.app.core.config import settings
 
 redis_client: Optional["Redis"] = None
 

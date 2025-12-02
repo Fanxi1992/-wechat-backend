@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 
-from app.schemas.file import FileParseResponse, FileMeta
-from app.services.file_service import read_file_content, validate_file
+from server.app.schemas.file import FileParseResponse, FileMeta
+from server.app.services.file_service import read_file_content, validate_file
 
 router = APIRouter(prefix="/files", tags=["files"])
 

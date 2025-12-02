@@ -7,7 +7,7 @@ from fastapi import UploadFile
 from PyPDF2 import PdfReader  # type: ignore
 import docx  # type: ignore
 
-from app.core.config import settings
+from server.app.core.config import settings
 
 
 def ensure_temp_dir() -> Path:
