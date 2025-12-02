@@ -26,6 +26,12 @@ class Settings(BaseSettings):
   ALLOW_FILE_EXT: str = "txt,pdf,doc,docx"
   TEMP_DIR: str = "./tmp"
 
+  # OpenRouter (LLM) settings
+  OPENROUTER_API_KEY: str | None = None
+  OPENROUTER_MODEL: str = "google/gemini-2.5-flash"
+  OPENROUTER_TIMEOUT: int = 15
+  OPENROUTER_RETRIES: int = 1
+
   # Redis (optional, not required now)
   REDIS_HOST: str = "localhost"
   REDIS_PORT: int = 6379

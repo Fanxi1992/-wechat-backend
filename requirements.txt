@@ -12,3 +12,4 @@ oss2
 python-multipart
 PyPDF2
 python-docx
+requests

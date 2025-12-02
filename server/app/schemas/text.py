@@ -26,6 +26,7 @@ class SummarizeRequest(BaseModel):
 class SummarizeMeta(BaseModel):
   truncated: bool = False
   ratio: float
+  model: str | None = None
 
 
 class SummarizeResponse(BaseModel):
