@@ -1,5 +1,5 @@
 from functools import lru_cache
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -10,7 +10,7 @@ class Settings(BaseSettings):
   DEBUG: bool = True
 
   # Security
-  SECRET_KEY: str = "change-me"
+  SECRET_KEY: str = "shifeng"
   JWT_ALGORITHM: str = "HS256"
   ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
   REFRESH_TOKEN_EXPIRE_DAYS: int = 7
