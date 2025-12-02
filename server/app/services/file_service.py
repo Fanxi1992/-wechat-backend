@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import Tuple
 
 from fastapi import UploadFile
+from PyPDF2 import PdfReader  # type: ignore
+import docx  # type: ignore
 
 from app.core.config import settings
 
@@ -28,31 +30,50 @@ def validate_file(file: UploadFile) -> Tuple[str, int]:
 
 async def read_file_content(file: UploadFile) -> str:
   """
-  Read file content into text. For non-txt types, return placeholder note.
+  Read file content into text. Supports txt/pdf/docx. Other allowed types can be extended here.
+  Enforces size limit while streaming.
   """
-  ext_part, _ = validate_file(file)
+  ext_part, declared_size = validate_file(file)
   temp_dir = ensure_temp_dir()
-  temp_path = temp_dir / file.filename if file.filename else temp_dir / "upload.tmp"
+  temp_path = temp_dir / (file.filename or "upload.tmp")
 
-  # Save stream to temp to allow parsers later.
+  max_bytes = settings.MAX_FILE_SIZE_MB * 1024 * 1024
+  written = 0
+
   with temp_path.open("wb") as out:
     while True:
       chunk = await file.read(1024 * 1024)
       if not chunk:
         break
+      written += len(chunk)
+      if written > max_bytes:
+        out.close()
+        try:
+          os.remove(temp_path)
+        except OSError:
+          pass
+        raise ValueError("file too large")
       out.write(chunk)
 
-  text: str
-  if ext_part == "txt":
-    text = temp_path.read_text(encoding="utf-8", errors="ignore")
-  else:
-    text = f"[{ext_part}] parser not implemented, raw file saved at {temp_path}"
-
-  # Optionally clean up non-txt files to avoid clutter; keep temp for debugging.
   try:
-    if ext_part != "txt":
+    if ext_part == "txt":
+      text = temp_path.read_text(encoding="utf-8", errors="ignore")
+    elif ext_part == "pdf":
+      reader = PdfReader(str(temp_path))
+      pages = [page.extract_text() or "" for page in reader.pages]
+      text = "\n".join(pages).strip()
+    elif ext_part in ("doc", "docx"):
+      doc = docx.Document(str(temp_path))
+      paragraphs = [p.text for p in doc.paragraphs]
+      text = "\n".join(paragraphs).strip()
+    else:
+      text = ""
+  finally:
+    try:
       os.remove(temp_path)
-  except OSError:
-    pass
+    except OSError:
+      pass
 
+  if not text:
+    text = f"[{ext_part}] parser returned empty text"
   return text
