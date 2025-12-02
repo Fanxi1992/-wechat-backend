@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.api.routes import router as api_router
 from app.core.config import settings
+from fastapi.middleware.cors import CORSMiddleware
 
 
 def create_app() -> FastAPI:
@@ -9,6 +10,15 @@ def create_app() -> FastAPI:
   Extend here when adding middleware, CORS, tracing, etc.
   """
   app = FastAPI(title="TTS Backend", version="0.1.0")
+
+  # CORS: allow all origins (adjust in production as needed)
+  app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+  )
 
   # Routers
   app.include_router(api_router, prefix=settings.API_PREFIX)
