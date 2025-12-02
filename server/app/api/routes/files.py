@@ -11,6 +11,7 @@ async def parse_file(file: UploadFile = File(...)) -> FileParseResponse:
   try:
     ext, _ = validate_file(file)
   except ValueError as e:
+    print(f"[file_parse][reject] filename={file.filename} err={e}")
     raise HTTPException(status_code=400, detail=str(e))
 
   text = await read_file_content(file)
@@ -20,4 +21,5 @@ async def parse_file(file: UploadFile = File(...)) -> FileParseResponse:
     ext=ext,
     note="parser placeholder for non-txt files" if ext != "txt" else None,
   )
+  print(f"[file_parse] filename={meta.filename} size={meta.size} ext={ext} text_len={len(text)}")
   return FileParseResponse(text=text, meta=meta)

@@ -11,6 +11,7 @@ router = APIRouter(prefix="/text", tags=["text"])
 def parse_text(payload: TextParseRequest) -> TextParseResponse:
   text, truncated = text_service.clamp_text(payload.content)
   meta = TextMeta(length=len(text), truncated=truncated)
+  print(f"[parse_text] len_in={len(payload.content)} len_out={len(text)} truncated={truncated}")
   return TextParseResponse(text=text, meta=meta)
 
 
@@ -28,9 +29,11 @@ def summarize_text(payload: SummarizeRequest) -> SummarizeResponse:
     )
   except ValueError as e:
     # If not configured or failed, expose as 502 to front-end
+    print(f"[summarize_text][error] len_in={len(payload.text)} ratio={ratio} max_tokens={max_tokens} err={e}")
     raise HTTPException(status_code=502, detail=str(e))
 
   meta = SummarizeMeta(ratio=ratio, truncated=truncated_input or truncated_output, model=model)
+  print(f"[summarize_text] len_in={len(payload.text)} ratio={ratio} max_tokens={max_tokens} len_out={len(summary)} model={model} truncated_out={truncated_output}")
   if not summary:
     raise HTTPException(status_code=400, detail="No content to summarize")
   return SummarizeResponse(summary=summary, meta=meta)
