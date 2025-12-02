@@ -1,0 +1,16 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Environments
+.env
+.venv
+venv/
+
+# SQLite DB
+data/
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
