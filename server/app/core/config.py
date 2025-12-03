@@ -31,6 +31,8 @@ class Settings(BaseSettings):
   OPENROUTER_MODEL: str = "google/gemini-2.5-flash"
   OPENROUTER_TIMEOUT: int = 15
   OPENROUTER_RETRIES: int = 1
+  SUMMARY_MIN_LENGTH: int = 300
+  SUMMARY_DEFAULT_RATIO: float = 0.6
 
   # Redis (optional, not required now)
   REDIS_HOST: str = "localhost"

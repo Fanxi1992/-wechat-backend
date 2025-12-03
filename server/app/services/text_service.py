@@ -29,9 +29,12 @@ def summarize_llm(text: str, ratio: float, max_tokens: int) -> tuple[str, bool, 
   if not settings.OPENROUTER_API_KEY:
     raise ValueError("OPENROUTER_API_KEY not configured")
 
-  target_len = min(max_tokens, max(1, int(len(text) * ratio)))
+  target_len = min(
+    max_tokens,
+    max(settings.SUMMARY_MIN_LENGTH, int(len(text) * ratio)),
+  )
   prompt = (
-    f"请用中文总结以下内容，压缩至大约 {target_len} 字以内，保留关键要点，输出纯文本：\n\n{text}"
+    f"请用中文总结以下内容，输出一个适合用来听的摘要版本，保留关键要点，输出纯文本：\n\n{text}"
   )
 
   payload = {

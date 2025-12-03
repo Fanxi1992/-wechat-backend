@@ -18,7 +18,7 @@ def parse_text(payload: TextParseRequest) -> TextParseResponse:
 @router.post("/summarize", response_model=SummarizeResponse)
 def summarize_text(payload: SummarizeRequest) -> SummarizeResponse:
   base_text, truncated_input = text_service.clamp_text(payload.text)
-  ratio = payload.ratio or 0.3
+  ratio = payload.ratio or settings.SUMMARY_DEFAULT_RATIO
   max_tokens = payload.max_tokens or settings.TTS_SLICE_LIMIT
 
   try:
