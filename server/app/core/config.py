@@ -34,6 +34,21 @@ class Settings(BaseSettings):
   SUMMARY_MIN_LENGTH: int = 300
   SUMMARY_DEFAULT_RATIO: float = 0.6
 
+  # DashScope (Qwen VL) settings
+  DASHSCOPE_API_KEY: str | None = None
+  DASHSCOPE_BASE_URL: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  QWEN_VL_MODEL: str = "qwen3-vl-plus-2025-12-19"
+  QWEN_VL_TIMEOUT: int = 60
+  QWEN_VL_RETRIES: int = 1
+  QWEN_VL_ENABLE_THINKING: bool = False
+  QWEN_VL_TEMPERATURE: float = 0.1
+  QWEN_VL_MAX_TOKENS: int = 800
+  QWEN_VL_USE_JSON_SCHEMA: bool = True
+
+  # Meal image constraints
+  MAX_IMAGE_SIZE_MB: int = 10
+  ALLOW_IMAGE_EXT: str = "jpg,jpeg,png,webp"
+
   # Redis (optional, not required now)
   REDIS_HOST: str = "localhost"
   REDIS_PORT: int = 6379
